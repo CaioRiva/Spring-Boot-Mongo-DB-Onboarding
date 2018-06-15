@@ -1,12 +1,28 @@
 package com.criva.onboardingproject;
 
+import com.criva.onboardingproject.model.vo.User;
+import com.criva.onboardingproject.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class OnboardingProjectApplication {
+public class OnboardingProjectApplication implements CommandLineRunner {
+
+    @Autowired
+    UserService userService;
 
     public static void main(String[] args) {
+
         SpringApplication.run(OnboardingProjectApplication.class, args);
+    }
+
+
+    @Override
+    public void run(String... args) throws Exception {
+
+        User user = userService.findUserById(2L);
+        userService.deleteUser(user);
     }
 }
