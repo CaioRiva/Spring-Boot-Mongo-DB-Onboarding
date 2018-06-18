@@ -1,7 +1,7 @@
 package com.criva.onboardingproject.service;
 
 import com.criva.onboardingproject.model.dao.UserDAO;
-import com.criva.onboardingproject.model.vo.User;
+import com.criva.onboardingproject.model.dto.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,8 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    public UserServiceImpl(UserDAO userDAO) {
+
+        this.userDAO = userDAO;
+    }
 
     @Override
     @Transactional

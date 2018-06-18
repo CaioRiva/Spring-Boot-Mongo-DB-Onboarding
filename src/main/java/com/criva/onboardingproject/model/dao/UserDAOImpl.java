@@ -1,6 +1,6 @@
 package com.criva.onboardingproject.model.dao;
 
-import com.criva.onboardingproject.model.vo.User;
+import com.criva.onboardingproject.model.dto.User;
 import org.springframework.stereotype.Repository;
 
 @Repository

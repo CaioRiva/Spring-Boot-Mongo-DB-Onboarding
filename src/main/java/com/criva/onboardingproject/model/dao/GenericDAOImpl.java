@@ -11,8 +11,7 @@ import java.lang.reflect.ParameterizedType;
 public abstract class GenericDAOImpl<T extends Serializable, K> implements GenericDAO<T, K>{
 
     @PersistenceContext
-    EntityManager entityManager;
-
+    private EntityManager entityManager;
     private final Class<T> entityClass;
 
     @SuppressWarnings("unchecked")
@@ -35,7 +34,7 @@ public abstract class GenericDAOImpl<T extends Serializable, K> implements Gener
         }
 
         return entity;
-    };
+    }
 
     public T update(T entity) {
 
@@ -49,7 +48,7 @@ public abstract class GenericDAOImpl<T extends Serializable, K> implements Gener
         }
 
         return entity;
-    };
+    }
 
     public void delete(T entity) {
 
@@ -61,7 +60,7 @@ public abstract class GenericDAOImpl<T extends Serializable, K> implements Gener
             System.err.println(e.getMessage());
             e.printStackTrace();
         }
-    };
+    }
 
     public T findById(K id) {
 
@@ -77,5 +76,5 @@ public abstract class GenericDAOImpl<T extends Serializable, K> implements Gener
         }
 
         return entity;
-    };
+    }
 }

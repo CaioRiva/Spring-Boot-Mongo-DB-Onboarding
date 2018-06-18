@@ -1,6 +1,6 @@
 package com.criva.onboardingproject.service;
 
-import com.criva.onboardingproject.model.vo.User;
+import com.criva.onboardingproject.model.dto.User;
 
 public interface UserService {
 
