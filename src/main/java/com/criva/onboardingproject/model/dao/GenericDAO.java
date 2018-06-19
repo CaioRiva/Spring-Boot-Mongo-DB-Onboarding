@@ -1,14 +1,18 @@
 package com.criva.onboardingproject.model.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
 public interface GenericDAO<T extends Serializable, K> {
 
-    public T save(T entity);
+    T save(T entity);
 
-    public T update(T entity);
+    T update(T entity);
 
-    public void delete(T entity);
+    void delete(T entity);
 
-    public T findById(K id);
+    T findById(K id);
+
+    List<T> findAll();
+
 }

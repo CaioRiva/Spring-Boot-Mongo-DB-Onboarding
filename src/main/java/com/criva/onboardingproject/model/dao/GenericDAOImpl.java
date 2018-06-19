@@ -1,11 +1,13 @@
 package com.criva.onboardingproject.model.dao;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 @Repository
 public abstract class GenericDAOImpl<T extends Serializable, K> implements GenericDAO<T, K>{
@@ -21,60 +23,39 @@ public abstract class GenericDAOImpl<T extends Serializable, K> implements Gener
                 .getActualTypeArguments()[0];
     }
 
+    @Transactional
     public T save(T entity) {
 
-        try {
-
-            entityManager.persist(entity);
-            entityManager.refresh(entity);
-        } catch (Exception e) {
-
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-        }
+        entityManager.persist(entity);
+        entityManager.refresh(entity);
 
         return entity;
     }
 
+    @Transactional
     public T update(T entity) {
 
-        try {
-
-            entity = entityManager.merge(entity);
-        } catch (Exception e) {
-
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-        }
+        entity = entityManager.merge(entity);
 
         return entity;
     }
 
+    @Transactional
     public void delete(T entity) {
 
-        try {
-
-            entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
-        } catch (Exception e) {
-
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-        }
+        entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
     }
 
+    @Transactional
     public T findById(K id) {
 
-        T entity = null;
+        return entityManager.find(entityClass, id);
+    }
 
-        try {
+    @SuppressWarnings("unchecked")
+    @Transactional
+    public List<T> findAll() {
 
-             entity = entityManager.find(entityClass, id);
-        } catch (Exception e) {
-
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-        }
-
-        return entity;
+        return entityManager.createQuery("FROM " + entityClass.getName()).getResultList();
     }
 }

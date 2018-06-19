@@ -2,14 +2,18 @@ package com.criva.onboardingproject.service;
 
 import com.criva.onboardingproject.model.dto.User;
 
+import java.util.List;
+
 public interface UserService {
 
-    public User saveUser(User user);
+    User saveUser(User user);
 
-    public User updateUser(User user);
+    User updateUser(User user);
 
-    public void deleteUser(User user);
+    void deleteUser(User user);
 
-    public User findUserById(Long id);
+    User findUserById(Long id);
+
+    List<User> findAllUsers();
 
 }
