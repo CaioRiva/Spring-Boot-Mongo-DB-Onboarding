@@ -1,5 +1,6 @@
 package com.criva.onboardingproject.service;
 
+import com.criva.onboardingproject.handler.exception.UserNotFoundException;
 import com.criva.onboardingproject.model.dao.UserDAO;
 import com.criva.onboardingproject.model.dto.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserById(Long id) {
 
-        return userDAO.findById(id);
+        User user = userDAO.findById(id);
+
+        if(user == null) {
+
+            throw  new UserNotFoundException();
+        }
+
+        return user;
     }
 
     @Override

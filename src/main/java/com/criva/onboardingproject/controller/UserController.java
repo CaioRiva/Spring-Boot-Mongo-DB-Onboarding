@@ -1,6 +1,6 @@
 package com.criva.onboardingproject.controller;
 
-import com.criva.onboardingproject.exception.EntityNotFoundException;
+import com.criva.onboardingproject.handler.GeneralExceptionHandler;
 import com.criva.onboardingproject.model.dto.User;
 import com.criva.onboardingproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +15,13 @@ public class UserController {
 
 
     private UserService userService;
+    private GeneralExceptionHandler exceptionHandler;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, GeneralExceptionHandler exceptionHandler) {
 
         this.userService = userService;
+        this.exceptionHandler = exceptionHandler;
     }
 
     @PostMapping
@@ -45,7 +47,7 @@ public class UserController {
         userService.deleteUser(user);
     }
 
-    /*  Using path param
+    /*  Using path paramusers;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -61,11 +63,6 @@ public class UserController {
 
         User user = userService.findUserById(id);
 
-        if(user == null) {
-
-            throw  new EntityNotFoundException("No User Found");
-        }
-
         return user;
     }
 
@@ -73,13 +70,6 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public List<User> findAllUsers() {
 
-        List<User> users = userService.findAllUsers();
-
-        if(users == null || users.isEmpty()) {
-
-            throw  new EntityNotFoundException("No User Found");
-        }
-
-        return users;
+        return userService.findAllUsers();
     }
 }
