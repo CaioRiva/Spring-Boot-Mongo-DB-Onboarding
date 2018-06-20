@@ -15,7 +15,6 @@ public class UserController {
 
 
     private UserService userService;
-    private GeneralExceptionHandler exceptionHandler;
 
     @Autowired
     public UserController(UserService userService, GeneralExceptionHandler exceptionHandler) {
