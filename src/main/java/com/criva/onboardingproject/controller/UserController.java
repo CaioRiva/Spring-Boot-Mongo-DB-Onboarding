@@ -1,6 +1,5 @@
 package com.criva.onboardingproject.controller;
 
-import com.criva.onboardingproject.handler.GeneralExceptionHandler;
 import com.criva.onboardingproject.model.dto.User;
 import com.criva.onboardingproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,9 +57,7 @@ public class UserController {
     @GetMapping("/{id}")
     public User findUserById(@PathVariable("id") Long id) {
 
-        User user = userService.findUserById(id);
-
-        return user;
+        return  userService.findUserById(id);
     }
 
     @GetMapping
