@@ -1,6 +1,7 @@
 package com.criva.onboardingproject.handler;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
@@ -8,8 +9,13 @@ import java.time.LocalDateTime;
 public class GeneralRequestError {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @Getter
     private LocalDateTime timestamp;
+
+    @Getter
     private HttpStatus status;
+
+    @Getter
     private String message;
 
     private GeneralRequestError() {
@@ -29,17 +35,5 @@ public class GeneralRequestError {
         this();
         this.status = status;
         this.message = message;
-    }
-
-    public HttpStatus getStatus() {
-        return status;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public String getMessage() {
-        return message;
     }
 }

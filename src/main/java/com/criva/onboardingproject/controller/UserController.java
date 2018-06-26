@@ -1,15 +1,21 @@
 package com.criva.onboardingproject.controller;
 
-import com.criva.onboardingproject.model.dto.User;
-import com.criva.onboardingproject.service.UserService;
+import com.criva.onboardingproject.model.vo.user.UserVO;
+import com.criva.onboardingproject.validation.group.AfterSavingValidation;
+import com.criva.onboardingproject.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
+@Validated
 public class UserController {
 
     private UserService userService;
@@ -20,49 +26,57 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public User saveUser(@RequestBody User user) {
+    public UserVO saveUser(@Valid @RequestBody UserVO user) {
 
         return userService.saveUser(user);
     }
 
-    @PutMapping
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public User updateUser(@RequestBody User user) {
+    public UserVO updateUser(@Validated({AfterSavingValidation.class}) @RequestBody UserVO user) {
 
         return userService.updateUser(user);
     }
 
-    @DeleteMapping
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteUser(@RequestBody User user) {
 
-        userService.deleteUser(user);
-    }
+    /* Update that returns no body
 
-    /*  Using path paramusers;
+    @PutMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateUser(@RequestBody UserVO room) {
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public User findUserById(@RequestParam("id") Long id) {
-
-        return userService.findUserById(id);
+        userService.updateUser(room);
     }
 
     */
 
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteUser(@Validated({AfterSavingValidation.class}) @RequestBody UserVO user) {
+
+        userService.deleteUser(user);
+    }
+
     @GetMapping("/{id}")
-    public User findUserById(@PathVariable("id") Long id) {
+    public UserVO findUserById(@PathVariable("id") String id) {
 
         return  userService.findUserById(id);
     }
 
+    @GetMapping(params = "name")
+    @ResponseStatus(HttpStatus.OK)
+    public UserVO findUserByName(@NotEmpty @RequestParam("name") String name) {
+
+        return userService.findUserByName(name);
+    }
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<User> findAllUsers() {
+    public List<UserVO> findAllUsers() {
 
         return userService.findAllUsers();
     }
