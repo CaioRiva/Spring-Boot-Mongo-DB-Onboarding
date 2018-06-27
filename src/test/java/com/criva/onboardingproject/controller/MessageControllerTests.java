@@ -4,7 +4,9 @@ import com.criva.onboardingproject.model.dto.MessageCreationDTO;
 import com.criva.onboardingproject.service.message.MessageService;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 public class MessageControllerTests {
 
@@ -15,7 +17,7 @@ public class MessageControllerTests {
     @Before
     public void setUp() {
 
-        messageService = Mockito.mock(MessageService.class);
+        messageService = mock(MessageService.class);
         messageController = new MessageController(messageService);
     }
 
@@ -24,8 +26,10 @@ public class MessageControllerTests {
 
         MessageCreationDTO messageCreation = new MessageCreationDTO("", "");
 
-        Mockito.doNothing().when(messageService).sendMessage(Mockito.any(MessageCreationDTO.class));
+        doNothing().when(messageService).sendMessage(any(MessageCreationDTO.class));
 
         messageController.sendMessage(messageCreation);
+        verify(messageService, times(1)).sendMessage(
+                any(MessageCreationDTO.class));
     }
 }

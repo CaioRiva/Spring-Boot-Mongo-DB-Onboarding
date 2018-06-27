@@ -3,11 +3,14 @@ package com.criva.onboardingproject.controller;
 import com.criva.onboardingproject.model.dto.RoomCreationDTO;
 import com.criva.onboardingproject.model.vo.room.RoomVO;
 import com.criva.onboardingproject.service.room.RoomService;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import java.util.Arrays;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 public class RoomControllerTests {
 
@@ -18,18 +21,21 @@ public class RoomControllerTests {
     @Before
     public void setUp() {
 
-        roomService = Mockito.mock(RoomService.class);
+        roomService = mock(RoomService.class);
         roomController = new RoomController(roomService);
     }
 
     @Test
-    public void testCreateRoom() {
+    public void testCreateRoomWithCorrectParticipantsNumber() {
 
         RoomCreationDTO roomCreation = new RoomCreationDTO("", "", Arrays.asList("", ""));
 
-        Mockito.when(roomService.createRoom(Mockito.any(RoomCreationDTO.class))).thenReturn(
-                new RoomVO("", "", Arrays.asList("", "")));
+        when(roomService.createRoom(any(RoomCreationDTO.class))).thenReturn(
+                new RoomVO("", "", Arrays.asList("", "", "")));
 
-        roomController.createRoom(roomCreation);
+        RoomVO room = roomController.createRoom(roomCreation);
+
+        Assert.assertEquals(3, room.getParticipantsId().size());
+        verify(roomService, times(1)).createRoom(any(RoomCreationDTO.class));
     }
 }

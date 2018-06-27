@@ -12,7 +12,10 @@ import com.criva.onboardingproject.service.message.MessageServiceImpl;
 import com.criva.onboardingproject.service.room.RoomService;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 import java.time.Instant;
 import java.util.Arrays;
@@ -28,9 +31,9 @@ public class MessageServiceTests {
     @Before
     public void setUp() {
 
-        roomService = Mockito.mock(RoomService.class);
-        messageDAO = Mockito.mock(MessageDAO.class);
-        contextService = Mockito.mock(ContextService.class);
+        roomService = mock(RoomService.class);
+        messageDAO = mock(MessageDAO.class);
+        contextService = mock(ContextService.class);
         messageService = new MessageServiceImpl(roomService, messageDAO, contextService);
     }
 
@@ -39,9 +42,11 @@ public class MessageServiceTests {
 
         MessageCreationDTO messageCreation = new MessageCreationDTO("", "");
 
-        Mockito.when(roomService.findRoomByParticipantId(Mockito.anyString())).thenReturn(null);
+        when(roomService.findRoomByParticipantId(anyString())).thenReturn(null);
 
         messageService.sendMessage(messageCreation);
+
+        verify(roomService, times(1)).findRoomByParticipantId(anyString());
     }
 
     @Test
@@ -49,15 +54,19 @@ public class MessageServiceTests {
 
         MessageCreationDTO messageCreation = new MessageCreationDTO("", "");
 
-        Mockito.when(roomService.findRoomByParticipantId(Mockito.anyString())).thenReturn(
+        when(roomService.findRoomByParticipantId(anyString())).thenReturn(
                 new RoomVO("" ,"", Arrays.asList("", "")));
-        Mockito.when(contextService.saveContext(Mockito.any(ContextVO.class))).thenReturn(
+        when(contextService.saveContext(any(ContextVO.class))).thenReturn(
                 new ContextVO("", Boolean.TRUE, Boolean.FALSE));
-        Mockito.when(messageDAO.save(Mockito.any(MessageVO.class))).thenReturn(
+        when(messageDAO.save(any(MessageVO.class))).thenReturn(
                 new MessageVO("", "", Instant.now(), Boolean.TRUE, "",
                         Arrays.asList("", "")));
 
         messageService.sendMessage(messageCreation);
+
+        verify(roomService, times(1)).findRoomByParticipantId(anyString());
+        verify(contextService, times(2)).saveContext(any(ContextVO.class));
+        verify(messageDAO, times(1)).save(any(MessageVO.class));
     }
 
 }
