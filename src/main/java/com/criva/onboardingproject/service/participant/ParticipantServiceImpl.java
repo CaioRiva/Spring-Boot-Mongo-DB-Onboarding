@@ -29,4 +29,10 @@ public class ParticipantServiceImpl implements ParticipantService{
 
         return participantDAO.saveAll(participants);
     }
+
+    @Override
+    public List<ParticipantVO> findAllByIds(List<String> ids) {
+
+        return participantDAO.findAllByIdIn(ids);
+    }
 }

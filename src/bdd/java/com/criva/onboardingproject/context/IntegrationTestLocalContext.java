@@ -6,7 +6,7 @@ import lombok.Setter;
 import java.util.HashMap;
 import java.util.Map;
 
-public class IntegrationTestsLocalContext {
+public class IntegrationTestLocalContext {
 
     @Getter
     @Setter

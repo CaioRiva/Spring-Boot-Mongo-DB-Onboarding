@@ -26,6 +26,9 @@ public class RoomVO {
     @Setter
     private List<String> participantsId;
 
+    public RoomVO() {
+    }
+
     public RoomVO(String id, String name, List<String> participantsId) {
 
         this.id = id;

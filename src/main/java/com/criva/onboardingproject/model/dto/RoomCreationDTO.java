@@ -19,21 +19,20 @@ public class RoomCreationDTO {
     @Setter
     @NotNull
     @NotEmpty
-    private String creatorUserId;
+    private String ownerUserId;
 
     @Getter
     @Setter
     @NotNull
     @NotEmpty
-    private List<String> invitedUsersId;
+    private List<String> guestUsersId;
 
     public RoomCreationDTO() {
     }
 
-    public RoomCreationDTO(String name, String creatorUserId, List<String> invitedUsersId) {
-
+    public RoomCreationDTO(@NotNull @NotEmpty String name, @NotNull @NotEmpty String ownerUserId, @NotNull @NotEmpty List<String> guestUsersId) {
         this.name = name;
-        this.creatorUserId = creatorUserId;
-        this.invitedUsersId = invitedUsersId;
+        this.ownerUserId = ownerUserId;
+        this.guestUsersId = guestUsersId;
     }
 }

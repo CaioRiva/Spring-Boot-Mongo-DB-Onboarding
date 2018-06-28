@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-@Document(collection = "room")
+@Document(collection = "user")
 public class UserVO implements Serializable {
 
     private static final long serialVersionUID = 3163789829776614249L;

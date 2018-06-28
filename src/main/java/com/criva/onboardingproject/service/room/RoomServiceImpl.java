@@ -43,8 +43,8 @@ public class RoomServiceImpl implements RoomService{
         List<ParticipantVO> participants = new ArrayList<>();
         List<String> participantsId = new ArrayList<>();
 
-        participants.add(new ParticipantVO(roomCreation.getCreatorUserId(), RoleEnum.RULER));
-        roomCreation.getInvitedUsersId().forEach(id -> participants.add(new ParticipantVO(id, RoleEnum.GUEST)));
+        participants.add(new ParticipantVO(roomCreation.getOwnerUserId(), RoleEnum.OWNER));
+        roomCreation.getGuestUsersId().forEach(id -> participants.add(new ParticipantVO(id, RoleEnum.GUEST)));
 
         participantService.saveParticipants(participants)
                 .forEach(participant -> participantsId.add(participant.getId()));

@@ -40,7 +40,7 @@ public class RoomServiceTests {
         RoomCreationDTO roomCreation = new RoomCreationDTO("", "", Arrays.asList("", ""));
 
         when(participantService.saveParticipants(anyList())).thenReturn(
-                Arrays.asList(new ParticipantVO("", "", RoleEnum.RULER),
+                Arrays.asList(new ParticipantVO("", "", RoleEnum.OWNER),
                         new ParticipantVO("", "", RoleEnum.GUEST),
                         new ParticipantVO("", "", RoleEnum.GUEST)));
         when(roomDAO.save(any(RoomVO.class))).thenReturn(
