@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MessageServiceImpl implements MessageService{
@@ -36,9 +37,8 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public void sendMessage(MessageCreationDTO messageCreation) {
+    public MessageVO sendMessage(MessageCreationDTO messageCreation) {
 
-        List<String> contextsId = new ArrayList<>();
         RoomVO room = roomService.findRoomByParticipantId(
                 messageCreation.getSenderParticipantId());
 
@@ -47,11 +47,16 @@ public class MessageServiceImpl implements MessageService{
             throw new RoomNotFoundException();
         }
 
-        List<String> participantsId = room.getParticipantsId();
-        participantsId.forEach(id -> contextsId.add(contextService.saveContext(
-                new ContextVO(id, Boolean.TRUE, Boolean.FALSE)).getId()));
+        List<ContextVO> contexts = contextService.saveContexts(
+                room.getParticipantsId().stream().map(
+                        id -> new ContextVO(id, Boolean.TRUE, Boolean.FALSE)
+                ).collect(Collectors.toList()));
 
-        saveMessage(new MessageVO(messageCreation.getText(), Instant.now(),
-                Boolean.TRUE, messageCreation.getSenderParticipantId(), contextsId));
+        return saveMessage(new MessageVO(messageCreation.getText(),
+                Instant.now(),
+                Boolean.TRUE, messageCreation.getSenderParticipantId(),
+                contexts.stream().map(
+                        context -> context.getId()
+        ).collect(Collectors.toList())));
     }
 }

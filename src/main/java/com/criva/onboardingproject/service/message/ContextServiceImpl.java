@@ -29,4 +29,10 @@ public class ContextServiceImpl implements ContextService {
 
         return contextDAO.saveAll(contexts);
     }
+
+    @Override
+    public List<ContextVO> findAllByIds(List<String> ids) {
+
+        return contextDAO.findAllByIdIn(ids);
+    }
 }

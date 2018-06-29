@@ -1,6 +1,7 @@
 package com.criva.onboardingproject.controller;
 
 import com.criva.onboardingproject.model.dto.MessageCreationDTO;
+import com.criva.onboardingproject.model.vo.message.MessageVO;
 import com.criva.onboardingproject.service.message.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,9 +22,10 @@ public class MessageController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public void sendMessage(@RequestBody MessageCreationDTO messageCreation) {
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public MessageVO sendMessage(@RequestBody MessageCreationDTO messageCreation) {
 
-        messageService.sendMessage(messageCreation);
+        return messageService.sendMessage(messageCreation);
     }
 }

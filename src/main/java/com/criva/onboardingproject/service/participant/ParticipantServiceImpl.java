@@ -19,12 +19,6 @@ public class ParticipantServiceImpl implements ParticipantService{
     }
 
     @Override
-    public ParticipantVO saveParticipant(ParticipantVO participant) {
-
-        return participantDAO.save(participant);
-    }
-
-    @Override
     public List<ParticipantVO> saveParticipants(List<ParticipantVO> participants) {
 
         return participantDAO.saveAll(participants);

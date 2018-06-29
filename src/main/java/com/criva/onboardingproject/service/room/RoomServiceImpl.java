@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RoomServiceImpl implements RoomService{
@@ -41,13 +42,14 @@ public class RoomServiceImpl implements RoomService{
     public RoomVO createRoom(RoomCreationDTO roomCreation) {
 
         List<ParticipantVO> participants = new ArrayList<>();
-        List<String> participantsId = new ArrayList<>();
-
         participants.add(new ParticipantVO(roomCreation.getOwnerUserId(), RoleEnum.OWNER));
-        roomCreation.getGuestUsersId().forEach(id -> participants.add(new ParticipantVO(id, RoleEnum.GUEST)));
+        roomCreation.getGuestUsersId().forEach(
+                id -> participants.add(new ParticipantVO(id, RoleEnum.GUEST))
+        );
 
-        participantService.saveParticipants(participants)
-                .forEach(participant -> participantsId.add(participant.getId()));
+        List<String> participantsId = participantService.saveParticipants(participants).stream().map(
+                participant -> participant.getId()
+        ).collect(Collectors.toList());
 
         return saveRoom(new RoomVO(roomCreation.getName(), participantsId));
     }

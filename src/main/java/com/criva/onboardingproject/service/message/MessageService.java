@@ -7,5 +7,5 @@ public interface MessageService {
 
     MessageVO saveMessage(MessageVO message);
 
-    void sendMessage(MessageCreationDTO messageCreation);
+    MessageVO sendMessage(MessageCreationDTO messageCreation);
 }

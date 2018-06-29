@@ -9,4 +9,6 @@ public interface ContextService {
     ContextVO saveContext(ContextVO context);
 
     List<ContextVO> saveContexts(List<ContextVO> contexts);
+
+    List<ContextVO> findAllByIds(List<String> ids);
 }

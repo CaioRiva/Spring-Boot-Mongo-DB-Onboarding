@@ -13,8 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -40,15 +40,13 @@ public class RoomSteps extends Steps {
         String ownerId = ((UserVO) IntegrationTestLocalThread.getContext()
                 .getContextMapping().get(owner)).getId();
 
-        List<String> guestsId = new ArrayList<>();
-        guests.forEach(guest -> guestsId.add(
-                ((UserVO) IntegrationTestLocalThread.getContext().getContextMapping().get(guest)).getId()));
-
-
+        List<String> guestsId = guests.stream().map(
+                guest -> ((UserVO) IntegrationTestLocalThread.getContext().getContextMapping().get(guest)).getId()
+        ).collect(Collectors.toList());
 
         RoomCreationDTO body = new RoomCreationDTO(RandomStringUtils.randomAlphabetic(10), ownerId, guestsId);
         HttpEntity<RoomCreationDTO> request = new HttpEntity<>(body);
-        ResponseEntity<RoomVO> response = restTemplate.postForEntity(ROOM_RESOURCE_URL, body, RoomVO.class);
+        ResponseEntity<RoomVO> response = restTemplate.postForEntity(ROOM_RESOURCE_URL, request, RoomVO.class);
 
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         assertThat(response.getBody(), notNullValue());
