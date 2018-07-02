@@ -1,4 +1,4 @@
-# SpringMongoOnboarding
+# Spring-Boot-MongoDB-boarding
 
 This is an example project for Daitan Onboarding.
 The application designed is intended to be a API prototype for chat applications domain.
