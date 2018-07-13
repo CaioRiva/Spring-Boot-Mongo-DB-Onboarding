@@ -1,9 +1,9 @@
 package com.criva.onboardingproject.steps;
 
 import com.criva.onboardingproject.context.IntegrationTestLocalThread;
-import com.criva.onboardingproject.model.dto.RoomCreationDTO;
-import com.criva.onboardingproject.model.vo.room.RoomVO;
-import com.criva.onboardingproject.model.vo.user.UserVO;
+import com.criva.onboardingproject.model.dto.RoomCreation;
+import com.criva.onboardingproject.model.vo.room.Room;
+import com.criva.onboardingproject.model.vo.user.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
@@ -37,16 +37,16 @@ public class RoomSteps extends Steps {
                          @Named("guests") List<String> guests) {
 
 
-        String ownerId = ((UserVO) IntegrationTestLocalThread.getContext()
+        String ownerId = ((User) IntegrationTestLocalThread.getContext()
                 .getContextMapping().get(owner)).getId();
 
         List<String> guestsId = guests.stream().map(
-                guest -> ((UserVO) IntegrationTestLocalThread.getContext().getContextMapping().get(guest)).getId()
+                guest -> ((User) IntegrationTestLocalThread.getContext().getContextMapping().get(guest)).getId()
         ).collect(Collectors.toList());
 
-        RoomCreationDTO body = new RoomCreationDTO(RandomStringUtils.randomAlphabetic(10), ownerId, guestsId);
-        HttpEntity<RoomCreationDTO> request = new HttpEntity<>(body);
-        ResponseEntity<RoomVO> response = restTemplate.postForEntity(ROOM_RESOURCE_URL, request, RoomVO.class);
+        RoomCreation body = new RoomCreation(RandomStringUtils.randomAlphabetic(10), ownerId, guestsId);
+        HttpEntity<RoomCreation> request = new HttpEntity<>(body);
+        ResponseEntity<Room> response = restTemplate.postForEntity(ROOM_RESOURCE_URL, request, Room.class);
 
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         assertThat(response.getBody(), notNullValue());

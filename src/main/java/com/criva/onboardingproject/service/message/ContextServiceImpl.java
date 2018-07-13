@@ -1,7 +1,7 @@
 package com.criva.onboardingproject.service.message;
 
 import com.criva.onboardingproject.model.dao.ContextDAO;
-import com.criva.onboardingproject.model.vo.message.ContextVO;
+import com.criva.onboardingproject.model.vo.message.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,19 +19,19 @@ public class ContextServiceImpl implements ContextService {
     }
 
     @Override
-    public ContextVO saveContext(ContextVO context) {
+    public Context saveContext(Context context) {
 
         return contextDAO.save(context);
     }
 
     @Override
-    public List<ContextVO> saveContexts(List<ContextVO> contexts) {
+    public List<Context> saveContexts(List<Context> contexts) {
 
         return contextDAO.saveAll(contexts);
     }
 
     @Override
-    public List<ContextVO> findAllByIds(List<String> ids) {
+    public List<Context> findAllByIds(List<String> ids) {
 
         return contextDAO.findAllByIdIn(ids);
     }

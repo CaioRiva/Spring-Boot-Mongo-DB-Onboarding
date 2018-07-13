@@ -3,7 +3,7 @@ package com.criva.onboardingproject.service.user;
 import com.criva.onboardingproject.handler.exception.user.UserNameAlreadyTakenException;
 import com.criva.onboardingproject.handler.exception.user.UserNotFoundException;
 import com.criva.onboardingproject.model.dao.UserDAO;
-import com.criva.onboardingproject.model.vo.user.UserVO;
+import com.criva.onboardingproject.model.vo.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserVO saveUser(UserVO user) {
+    public User saveUser(User user) {
 
         if(userDAO.findByName(user.getName()) != null) {
 
@@ -33,9 +33,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserVO updateUser(UserVO user) {
+    public User updateUser(User user) {
 
-        UserVO savedUser = findUserByName(user.getName());
+        User savedUser = findUserByName(user.getName());
 
         if(savedUser != null && !savedUser.getId().equals(user.getId())) {
 
@@ -46,15 +46,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(UserVO user) {
+    public void deleteUser(User user) {
 
         userDAO.delete(user);
     }
 
     @Override
-    public UserVO findUserById(String id) {
+    public User findUserById(String id) {
 
-        Optional<UserVO> user = userDAO.findById(id);
+        Optional<User> user = userDAO.findById(id);
 
         if(!user.isPresent()) {
 
@@ -65,15 +65,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserVO> findAllUsers() {
+    public List<User> findAllUsers() {
 
         return userDAO.findAll();
     }
 
     @Override
-    public UserVO findUserByName(String name) {
+    public User findUserByName(String name) {
 
-        UserVO user = userDAO.findByName(name);
+        User user = userDAO.findByName(name);
 
         if(user == null) {
 

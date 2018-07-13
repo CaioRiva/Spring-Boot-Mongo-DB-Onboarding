@@ -1,10 +1,10 @@
 package com.criva.onboardingproject.service;
 
 import com.criva.onboardingproject.model.dao.RoomDAO;
-import com.criva.onboardingproject.model.dto.RoomCreationDTO;
-import com.criva.onboardingproject.model.vo.room.ParticipantVO;
-import com.criva.onboardingproject.model.vo.room.RoleEnum;
-import com.criva.onboardingproject.model.vo.room.RoomVO;
+import com.criva.onboardingproject.model.dto.RoomCreation;
+import com.criva.onboardingproject.model.vo.room.Participant;
+import com.criva.onboardingproject.model.enumerator.Role;
+import com.criva.onboardingproject.model.vo.room.Room;
 import com.criva.onboardingproject.service.participant.ParticipantService;
 import com.criva.onboardingproject.service.room.RoomService;
 import com.criva.onboardingproject.service.room.RoomServiceImpl;
@@ -37,19 +37,19 @@ public class RoomServiceTests {
     @Test
     public void testRoomCreatedWithCorrectParticipantsNumber() {
 
-        RoomCreationDTO roomCreation = new RoomCreationDTO("", "", Arrays.asList("", ""));
+        RoomCreation roomCreation = new RoomCreation("", "", Arrays.asList("", ""));
 
         when(participantService.saveParticipants(anyList())).thenReturn(
-                Arrays.asList(new ParticipantVO("", "", RoleEnum.OWNER),
-                        new ParticipantVO("", "", RoleEnum.GUEST),
-                        new ParticipantVO("", "", RoleEnum.GUEST)));
-        when(roomDAO.save(any(RoomVO.class))).thenReturn(
-                new RoomVO("", "", Arrays.asList("", "", "")));
+                Arrays.asList(new Participant("", "", Role.OWNER),
+                        new Participant("", "", Role.GUEST),
+                        new Participant("", "", Role.GUEST)));
+        when(roomDAO.save(any(Room.class))).thenReturn(
+                new Room("", "", Arrays.asList("", "", "")));
 
-        RoomVO room = roomService.createRoom(roomCreation);
+        Room room = roomService.createRoom(roomCreation);
 
         Assert.assertEquals(3, room.getParticipantsId().size());
         verify(participantService, times(1)).saveParticipants(anyList());
-        verify(roomDAO, times(1)).save(any(RoomVO.class));
+        verify(roomDAO, times(1)).save(any(Room.class));
     }
 }

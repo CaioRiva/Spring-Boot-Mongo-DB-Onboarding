@@ -1,13 +1,13 @@
 package com.criva.onboardingproject.service.room;
 
-import com.criva.onboardingproject.model.dto.RoomCreationDTO;
-import com.criva.onboardingproject.model.vo.room.RoomVO;
+import com.criva.onboardingproject.model.dto.RoomCreation;
+import com.criva.onboardingproject.model.vo.room.Room;
 
 public interface RoomService {
 
-    RoomVO saveRoom(RoomVO room);
+    Room saveRoom(Room room);
 
-    RoomVO findRoomByParticipantId(String participantId);
+    Room findRoomByParticipantId(String participantId);
 
-    RoomVO createRoom(RoomCreationDTO roomCreationDTO);
+    Room createRoom(RoomCreation roomCreationDTO);
 }

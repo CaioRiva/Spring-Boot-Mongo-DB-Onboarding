@@ -1,8 +1,8 @@
 package com.criva.onboardingproject.steps;
 
 import com.criva.onboardingproject.context.IntegrationTestLocalThread;
-import com.criva.onboardingproject.model.vo.room.ParticipantVO;
-import com.criva.onboardingproject.model.vo.room.RoomVO;
+import com.criva.onboardingproject.model.vo.room.Participant;
+import com.criva.onboardingproject.model.vo.room.Room;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
 import org.jbehave.core.steps.Steps;
@@ -32,14 +32,14 @@ public class ParticipantSteps extends Steps {
     public void theParticipantsOfTheRoom(@Named("participants") List<String> participants,
                                          @Named("room") String room) {
 
-        RoomVO savedRoom = (RoomVO) IntegrationTestLocalThread.getContext()
+        Room savedRoom = (Room) IntegrationTestLocalThread.getContext()
                 .getContextMapping().get(room);
 
         UriComponentsBuilder urlBuilder = UriComponentsBuilder
                 .fromHttpUrl(PARTICIPANTS_RESOURCE_URL)
                 .queryParam("ids", String.join(",", savedRoom.getParticipantsId()));
 
-        ResponseEntity<ParticipantVO[]> response = restTemplate.getForEntity(urlBuilder.toUriString(), ParticipantVO[].class);
+        ResponseEntity<Participant[]> response = restTemplate.getForEntity(urlBuilder.toUriString(), Participant[].class);
 
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         assertEquals(participants.size(), response.getBody().length);

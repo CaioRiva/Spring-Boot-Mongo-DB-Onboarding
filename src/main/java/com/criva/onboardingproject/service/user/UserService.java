@@ -1,20 +1,20 @@
 package com.criva.onboardingproject.service.user;
 
-import com.criva.onboardingproject.model.vo.user.UserVO;
+import com.criva.onboardingproject.model.vo.user.User;
 
 import java.util.List;
 
 public interface UserService {
 
-    UserVO saveUser(UserVO user);
+    User saveUser(User user);
 
-    UserVO updateUser(UserVO user);
+    User updateUser(User user);
 
-    void deleteUser(UserVO user);
+    void deleteUser(User user);
 
-    UserVO findUserById(String id);
+    User findUserById(String id);
 
-    List<UserVO> findAllUsers();
+    List<User> findAllUsers();
 
-    UserVO findUserByName(String name);
+    User findUserByName(String name);
 }

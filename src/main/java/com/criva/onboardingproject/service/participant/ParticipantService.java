@@ -1,12 +1,12 @@
 package com.criva.onboardingproject.service.participant;
 
-import com.criva.onboardingproject.model.vo.room.ParticipantVO;
+import com.criva.onboardingproject.model.vo.room.Participant;
 
 import java.util.List;
 
 public interface ParticipantService {
 
-    List<ParticipantVO> saveParticipants(List<ParticipantVO> participants);
+    List<Participant> saveParticipants(List<Participant> participants);
 
-    List<ParticipantVO> findAllByIds(List<String> ids);
+    List<Participant> findAllByIds(List<String> ids);
 }

@@ -1,7 +1,7 @@
 package com.criva.onboardingproject.controller;
 
-import com.criva.onboardingproject.model.vo.user.UserVO;
-import com.criva.onboardingproject.validation.group.AfterSavingValidation;
+import com.criva.onboardingproject.model.vo.user.User;
+import com.criva.onboardingproject.validator.group.AfterSaving;
 import com.criva.onboardingproject.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,9 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping(value = "/users",
+        produces = MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.APPLICATION_JSON_VALUE)
 @Validated
 public class UserController {
 
@@ -26,16 +28,16 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public UserVO saveUser(@Valid @RequestBody UserVO user) {
+    public User saveUser(@Valid @RequestBody User user) {
 
         return userService.saveUser(user);
     }
 
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public UserVO updateUser(@Validated({AfterSavingValidation.class}) @RequestBody UserVO user) {
+    public User updateUser(@Validated({AfterSaving.class}) @RequestBody User user) {
 
         return userService.updateUser(user);
     }
@@ -45,7 +47,7 @@ public class UserController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateUser(@RequestBody UserVO room) {
+    public void updateUser(@RequestBody User room) {
 
         userService.updateUser(room);
     }
@@ -54,27 +56,27 @@ public class UserController {
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
-    public void deleteUser(@Validated({AfterSavingValidation.class}) @RequestBody UserVO user) {
+    public void deleteUser(@Validated({AfterSaving.class}) @RequestBody User user) {
 
         userService.deleteUser(user);
     }
 
     @GetMapping("/{id}")
-    public UserVO findUserById(@PathVariable("id") String id) {
+    public User findUserById(@PathVariable("id") String id) {
 
         return  userService.findUserById(id);
     }
 
     @GetMapping(params = "name")
     @ResponseStatus(HttpStatus.OK)
-    public UserVO findUserByName(@NotEmpty @RequestParam("name") String name) {
+    public User findUserByName(@NotEmpty @RequestParam("name") String name) {
 
         return userService.findUserByName(name);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<UserVO> findAllUsers() {
+    public List<User> findAllUsers() {
 
         return userService.findAllUsers();
     }

@@ -1,10 +1,10 @@
 package com.criva.onboardingproject.steps;
 
 import com.criva.onboardingproject.context.IntegrationTestLocalThread;
-import com.criva.onboardingproject.model.dto.MessageCreationDTO;
-import com.criva.onboardingproject.model.vo.message.ContextVO;
-import com.criva.onboardingproject.model.vo.message.MessageVO;
-import com.criva.onboardingproject.model.vo.room.ParticipantVO;
+import com.criva.onboardingproject.model.dto.MessageCreation;
+import com.criva.onboardingproject.model.vo.message.Context;
+import com.criva.onboardingproject.model.vo.message.Message;
+import com.criva.onboardingproject.model.vo.room.Participant;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
@@ -42,11 +42,11 @@ public class MessageSteps extends Steps {
     public void theParticipantSendsMessage(@Named("participant") String particpant,
                                            @Named("message") String message) {
 
-        ParticipantVO savedParticipant = (ParticipantVO) IntegrationTestLocalThread.getContext().getContextMapping().get(particpant);
+        Participant savedParticipant = (Participant) IntegrationTestLocalThread.getContext().getContextMapping().get(particpant);
 
-        MessageCreationDTO body = new MessageCreationDTO(RandomStringUtils.randomAlphabetic(10), savedParticipant.getId());
-        HttpEntity<MessageCreationDTO> request = new HttpEntity<>(body);
-        ResponseEntity<MessageVO> response = restTemplate.postForEntity(MESSAGES_RESOURCE_URL, request, MessageVO.class);
+        MessageCreation body = new MessageCreation(RandomStringUtils.randomAlphabetic(10), savedParticipant.getId());
+        HttpEntity<MessageCreation> request = new HttpEntity<>(body);
+        ResponseEntity<Message> response = restTemplate.postForEntity(MESSAGES_RESOURCE_URL, request, Message.class);
 
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         assertThat(response.getBody(), notNullValue());
@@ -58,20 +58,20 @@ public class MessageSteps extends Steps {
     public void allParticipantsOfParticipantRoomMustReceiveMessage(@Named("participants") List<String> participants,
                                                                    @Named("message") String message) {
 
-        MessageVO savedMessage = (MessageVO) IntegrationTestLocalThread.getContext().getContextMapping().get(message);
+        Message savedMessage = (Message) IntegrationTestLocalThread.getContext().getContextMapping().get(message);
         List<String> savedParticipantsId = participants.stream().map(
-                participant -> ((ParticipantVO) IntegrationTestLocalThread.getContext().getContextMapping().get(participant)).getId()
+                participant -> ((Participant) IntegrationTestLocalThread.getContext().getContextMapping().get(participant)).getId()
         ).collect(Collectors.toList());
 
         UriComponentsBuilder urlBuilder = UriComponentsBuilder
                 .fromHttpUrl(CONTEXTS_RESOURCE_URL)
                 .queryParam("ids", String.join(",", savedMessage.getContextsId()));
 
-        ResponseEntity<ContextVO[]> response = restTemplate.getForEntity(urlBuilder.toUriString(), ContextVO[].class);
+        ResponseEntity<Context[]> response = restTemplate.getForEntity(urlBuilder.toUriString(), Context[].class);
 
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
 
-        List<Optional<ContextVO>> savedContexts = savedParticipantsId.stream().map(
+        List<Optional<Context>> savedContexts = savedParticipantsId.stream().map(
                 id -> stream(response.getBody()).filter(
                         context -> id.equals(context.getRecipientParticipantId()) && Boolean.TRUE.equals(context.getReceived())
                 ).findAny()

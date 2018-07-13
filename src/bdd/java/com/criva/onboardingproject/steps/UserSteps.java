@@ -1,7 +1,7 @@
 package com.criva.onboardingproject.steps;
 
 import com.criva.onboardingproject.context.IntegrationTestLocalThread;
-import com.criva.onboardingproject.model.vo.user.UserVO;
+import com.criva.onboardingproject.model.vo.user.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
@@ -30,15 +30,15 @@ public class UserSteps extends Steps {
     @Given("the new user(s) $users")
     public void theNewUsers(@Named("users") List<String> users) {
 
-        UserVO body;
-        HttpEntity<UserVO> request;
-        ResponseEntity<UserVO> response;
+        User body;
+        HttpEntity<User> request;
+        ResponseEntity<User> response;
 
         for(String user : users) {
 
-             body = new UserVO(UUID.randomUUID().toString(), RandomStringUtils.randomAlphanumeric(8));
+             body = new User(UUID.randomUUID().toString(), RandomStringUtils.randomAlphanumeric(8));
              request = new HttpEntity<>(body);
-             response = restTemplate.postForEntity(USER_RESOURCE_URL, request, UserVO.class);
+             response = restTemplate.postForEntity(USER_RESOURCE_URL, request, User.class);
 
              assertThat(response.getStatusCode(), is(HttpStatus.OK));
              assertThat(response.getBody(), notNullValue());

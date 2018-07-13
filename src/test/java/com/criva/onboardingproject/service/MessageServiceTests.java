@@ -2,10 +2,10 @@ package com.criva.onboardingproject.service;
 
 import com.criva.onboardingproject.handler.exception.room.RoomNotFoundException;
 import com.criva.onboardingproject.model.dao.MessageDAO;
-import com.criva.onboardingproject.model.dto.MessageCreationDTO;
-import com.criva.onboardingproject.model.vo.message.ContextVO;
-import com.criva.onboardingproject.model.vo.message.MessageVO;
-import com.criva.onboardingproject.model.vo.room.RoomVO;
+import com.criva.onboardingproject.model.dto.MessageCreation;
+import com.criva.onboardingproject.model.vo.message.Context;
+import com.criva.onboardingproject.model.vo.message.Message;
+import com.criva.onboardingproject.model.vo.room.Room;
 import com.criva.onboardingproject.service.message.ContextService;
 import com.criva.onboardingproject.service.message.MessageService;
 import com.criva.onboardingproject.service.message.MessageServiceImpl;
@@ -40,7 +40,7 @@ public class MessageServiceTests {
     @Test(expected = RoomNotFoundException.class)
     public void testSendMessageRoomNotFound() {
 
-        MessageCreationDTO messageCreation = new MessageCreationDTO("", "");
+        MessageCreation messageCreation = new MessageCreation("", "");
 
         when(roomService.findRoomByParticipantId(anyString())).thenReturn(null);
 
@@ -52,21 +52,21 @@ public class MessageServiceTests {
     @Test
     public void testSendMessage() {
 
-        MessageCreationDTO messageCreation = new MessageCreationDTO("", "");
+        MessageCreation messageCreation = new MessageCreation("", "");
 
         when(roomService.findRoomByParticipantId(anyString())).thenReturn(
-                new RoomVO("" ,"", Arrays.asList("", "")));
-        when(contextService.saveContext(any(ContextVO.class))).thenReturn(
-                new ContextVO("", Boolean.TRUE, Boolean.FALSE));
-        when(messageDAO.save(any(MessageVO.class))).thenReturn(
-                new MessageVO("", "", Instant.now(), Boolean.TRUE, "",
+                new Room("" ,"", Arrays.asList("", "")));
+        when(contextService.saveContext(any(Context.class))).thenReturn(
+                new Context("", Boolean.TRUE, Boolean.FALSE));
+        when(messageDAO.save(any(Message.class))).thenReturn(
+                new Message("", "", Instant.now(), Boolean.TRUE, "",
                         Arrays.asList("", "")));
 
         messageService.sendMessage(messageCreation);
 
         verify(roomService, times(1)).findRoomByParticipantId(anyString());
-        verify(contextService, times(2)).saveContext(any(ContextVO.class));
-        verify(messageDAO, times(1)).save(any(MessageVO.class));
+        verify(contextService, times(2)).saveContext(any(Context.class));
+        verify(messageDAO, times(1)).save(any(Message.class));
     }
 
 }

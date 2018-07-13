@@ -2,16 +2,15 @@ package com.criva.onboardingproject.service.message;
 
 import com.criva.onboardingproject.handler.exception.room.RoomNotFoundException;
 import com.criva.onboardingproject.model.dao.MessageDAO;
-import com.criva.onboardingproject.model.dto.MessageCreationDTO;
-import com.criva.onboardingproject.model.vo.message.ContextVO;
-import com.criva.onboardingproject.model.vo.message.MessageVO;
-import com.criva.onboardingproject.model.vo.room.RoomVO;
+import com.criva.onboardingproject.model.dto.MessageCreation;
+import com.criva.onboardingproject.model.vo.message.Context;
+import com.criva.onboardingproject.model.vo.message.Message;
+import com.criva.onboardingproject.model.vo.room.Room;
 import com.criva.onboardingproject.service.room.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,15 +30,15 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public MessageVO saveMessage(MessageVO message) {
+    public Message saveMessage(Message message) {
 
         return messageDAO.save(message);
     }
 
     @Override
-    public MessageVO sendMessage(MessageCreationDTO messageCreation) {
+    public Message sendMessage(MessageCreation messageCreation) {
 
-        RoomVO room = roomService.findRoomByParticipantId(
+        Room room = roomService.findRoomByParticipantId(
                 messageCreation.getSenderParticipantId());
 
         if(room == null) {
@@ -47,12 +46,12 @@ public class MessageServiceImpl implements MessageService{
             throw new RoomNotFoundException();
         }
 
-        List<ContextVO> contexts = contextService.saveContexts(
+        List<Context> contexts = contextService.saveContexts(
                 room.getParticipantsId().stream().map(
-                        id -> new ContextVO(id, Boolean.TRUE, Boolean.FALSE)
+                        id -> new Context(id, Boolean.TRUE, Boolean.FALSE)
                 ).collect(Collectors.toList()));
 
-        return saveMessage(new MessageVO(messageCreation.getText(),
+        return saveMessage(new Message(messageCreation.getText(),
                 Instant.now(),
                 Boolean.TRUE, messageCreation.getSenderParticipantId(),
                 contexts.stream().map(

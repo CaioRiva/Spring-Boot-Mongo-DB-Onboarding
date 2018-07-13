@@ -1,14 +1,14 @@
 package com.criva.onboardingproject.service.message;
 
-import com.criva.onboardingproject.model.vo.message.ContextVO;
+import com.criva.onboardingproject.model.vo.message.Context;
 
 import java.util.List;
 
 public interface ContextService {
 
-    ContextVO saveContext(ContextVO context);
+    Context saveContext(Context context);
 
-    List<ContextVO> saveContexts(List<ContextVO> contexts);
+    List<Context> saveContexts(List<Context> contexts);
 
-    List<ContextVO> findAllByIds(List<String> ids);
+    List<Context> findAllByIds(List<String> ids);
 }

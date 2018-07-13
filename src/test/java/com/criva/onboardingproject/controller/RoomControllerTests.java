@@ -1,7 +1,7 @@
 package com.criva.onboardingproject.controller;
 
-import com.criva.onboardingproject.model.dto.RoomCreationDTO;
-import com.criva.onboardingproject.model.vo.room.RoomVO;
+import com.criva.onboardingproject.model.dto.RoomCreation;
+import com.criva.onboardingproject.model.vo.room.Room;
 import com.criva.onboardingproject.service.room.RoomService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,14 +28,14 @@ public class RoomControllerTests {
     @Test
     public void testCreateRoomWithCorrectParticipantsNumber() {
 
-        RoomCreationDTO roomCreation = new RoomCreationDTO("", "", Arrays.asList("", ""));
+        RoomCreation roomCreation = new RoomCreation("", "", Arrays.asList("", ""));
 
-        when(roomService.createRoom(any(RoomCreationDTO.class))).thenReturn(
-                new RoomVO("", "", Arrays.asList("", "", "")));
+        when(roomService.createRoom(any(RoomCreation.class))).thenReturn(
+                new Room("", "", Arrays.asList("", "", "")));
 
-        RoomVO room = roomController.createRoom(roomCreation);
+        Room room = roomController.createRoom(roomCreation);
 
         Assert.assertEquals(3, room.getParticipantsId().size());
-        verify(roomService, times(1)).createRoom(any(RoomCreationDTO.class));
+        verify(roomService, times(1)).createRoom(any(RoomCreation.class));
     }
 }

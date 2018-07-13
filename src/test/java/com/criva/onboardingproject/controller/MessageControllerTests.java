@@ -1,6 +1,6 @@
 package com.criva.onboardingproject.controller;
 
-import com.criva.onboardingproject.model.dto.MessageCreationDTO;
+import com.criva.onboardingproject.model.dto.MessageCreation;
 import com.criva.onboardingproject.service.message.MessageService;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,12 +24,12 @@ public class MessageControllerTests {
     @Test
     public void testsSendMessage() {
 
-        MessageCreationDTO messageCreation = new MessageCreationDTO("", "");
+        MessageCreation messageCreation = new MessageCreation("", "");
 
-        doNothing().when(messageService).sendMessage(any(MessageCreationDTO.class));
+        doNothing().when(messageService).sendMessage(any(MessageCreation.class));
 
         messageController.sendMessage(messageCreation);
         verify(messageService, times(1)).sendMessage(
-                any(MessageCreationDTO.class));
+                any(MessageCreation.class));
     }
 }

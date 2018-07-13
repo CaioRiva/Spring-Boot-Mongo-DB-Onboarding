@@ -1,11 +1,11 @@
 package com.criva.onboardingproject.service.message;
 
-import com.criva.onboardingproject.model.dto.MessageCreationDTO;
-import com.criva.onboardingproject.model.vo.message.MessageVO;
+import com.criva.onboardingproject.model.dto.MessageCreation;
+import com.criva.onboardingproject.model.vo.message.Message;
 
 public interface MessageService {
 
-    MessageVO saveMessage(MessageVO message);
+    Message saveMessage(Message message);
 
-    MessageVO sendMessage(MessageCreationDTO messageCreation);
+    Message sendMessage(MessageCreation messageCreation);
 }

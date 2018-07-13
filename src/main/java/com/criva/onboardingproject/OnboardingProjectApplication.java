@@ -1,6 +1,6 @@
 package com.criva.onboardingproject;
 
-import com.criva.onboardingproject.model.vo.room.ParticipantVO;
+import com.criva.onboardingproject.model.vo.room.Participant;
 import com.criva.onboardingproject.service.participant.ParticipantService;
 import com.criva.onboardingproject.service.room.RoomService;
 import com.criva.onboardingproject.service.user.UserService;
@@ -40,7 +40,7 @@ public class OnboardingProjectApplication implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        List<ParticipantVO> p = participantService.findAllByIds(Arrays.asList("5b350965893ff20f06f7d1dc", "5b350965893ff20f06f7d1dd", "5b350965893ff20f06f7d1de"));
+        List<Participant> p = participantService.findAllByIds(Arrays.asList("5b350965893ff20f06f7d1dc", "5b350965893ff20f06f7d1dd", "5b350965893ff20f06f7d1de"));
         List<String> a = new ArrayList<>();
     }
 }
